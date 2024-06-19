@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Incredible India</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='index.css') }}"
+    />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar start -->
+    <header>
+      <nav id="navbar">
+        <ul>
+          <li>
+            <a href="#">
+              <img
+                src="{{ url_for('.static', filename='lgo.png') }}"
+                alt="Logo"
+              />
+            </a>
+          </li>
+        </ul>
+        <ul class="lists">
+          <li><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+    </header>
+    <!-- Navbar End -->
+
+    <!-- Hero section start -->
+    <section class="hero">
+      <div class="hero-bg">
+        <img
+          src="{{ url_for('.static', filename='img/hero-bg.png') }}"
+          class="hero-img"
+          alt="Hero Background"
+        />
+        <div class="hero-text">
+          <h1>Incredible India!</h1>
+          <a href="/explore" class="explore-btn">Explore Now</a>
+        </div>
+      </div>
+    </section>
+    <!-- Hero section End -->
+
+    <!-- About section start -->
+    <section id="about">
+      <div class="about-bg">
+        <div class="imggg"></div>
+        <div class="about-text">
+          <h1 class="offer">What We Offer</h1>
+          <div class="line"></div>
+          <div class="about-card">
+            <ul>
+              <li class="li">
+                <div class="img">
+                  <img
+                    src="{{ url_for('.static', filename='img/search (3).png') }}"
+                    alt="Search Places"
+                  />
+                </div>
+                Search Places
+              </li>
+              <li class="li">
+                <div class="img">
+                  <img
+                    src="{{ url_for('.static', filename='img/location.png') }}"
+                    alt="Interactive Map"
+                  />
+                </div>
+                Interactive Map
+              </li>
+              <li class="li">
+                <div class="img">
+                  <img
+                    src="{{ url_for('.static', filename='img/chatbot (1).png') }}"
+                    alt="Chatbot Assistance"
+                  />
+                </div>
+                Chatbot Assistance
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- About section End -->
+    <div id="contact">
+      <div class="textt">
+        <h1>Contact Us On: exploreease@gmail.com</h1>
+      </div>
+    </div>
+    <!-- Footer start -->
+    <footer>
+      <p>&copy; 2024 Incredible India. All rights reserved.</p>
+    </footer>
+    <!-- Footer End -->
+
+    <script>
+      window.addEventListener('scroll', function () {
+        var navbar = document.getElementById('navbar');
+        if (window.scrollY > 40) {
+          navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+          navbar.style.top = '0';
+        } else if (window.scrollY > 0 && window.scrollY <= 40) {
+          navbar.style.backgroundColor = 'transparent';
+          navbar.style.top = '0';
+        } else {
+          navbar.style.backgroundColor = 'transparent';
+          navbar.style.top = '25px';
+        }
+      });
+    </script>
+  </body>
+</html>

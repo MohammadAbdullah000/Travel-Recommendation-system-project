@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ card['PlaceName'] }}</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='card.css') }}"
+    />
+    <style>
+      #loader {
+        border: 6px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 6px solid rgb(147, 147, 184);
+        width: 80px;
+        height: 80px;
+        animation: spin 2s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+        display: none; /* Hidden by default */
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <a href="">
+          <li>
+            <img src="{{url_for('.static', filename='lgo.png')}}" alt="" />
+          </li>
+        </a>
+      </ul>
+      <ul class="lists">
+       
+      </ul>
+    </nav>
+
+    <!-- End Navbar -->
+    <div class="carddet">
+      <div class="card" onclick="changeLocation('{{ card['PlaceName'] }}')">
+        <div class="card-body">
+          <div class="insidecard">
+            <div class="placeandimg">
+              <img class="card-img-top" src="{{ card['Image'] }}" />
+              <h3 class="text-white place-name">{{ card['PlaceName'] }}</h3>
+            </div>
+            <p class="text-white">
+              <h4 class="text-white">Category: {{ card['Place Category'] }}</h4>
+              <h4 class="text-white">Best Time: {{ card['Time to visit'] }}</h4>
+              <strong class="text-white">About: </strong> <div class="desc">{{ card['Description'] }}</div> 
+            </p>
+            <h3 class="text-white">TIPs for Foreigners:</h3>
+            <p class="text-white">
+              <strong>Local Currency: </strong> Carry some Indian Rupees (INR) for immediate
+              expenses. ATMs are widely available, but it’s good to have cash
+              for smaller vendors.
+            </p>
+            <p class="text-white">
+              <strong>Credit/Debit Cards:</strong> Inform your bank about your travel to avoid
+              any issues with card transactions.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div id="loader"></div>
+      <div class="map-container">
+        <iframe
+          id="gmap_canvas"
+          width="1030"
+          height="618"
+          onload="hideLoader()"
+          src=""
+          frameborder="0"
+          style="border: 0"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+    <script>
+        showLoader();
+      function changeLocation(placeName) {
+        var iframeSrc =
+          'https://maps.google.com/maps?q=' +
+          encodeURIComponent(placeName) +
+          '&t=&z=10&ie=UTF8&iwloc=&output=embed';
+
+        document.getElementById('gmap_canvas').src = iframeSrc;
+      }
+
+      // Automatically load the map for the current card on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        changeLocation('{{ card['PlaceName'] }}');
+
+
+      });
+      function showLoader() {
+            document.getElementById('loader').style.display = 'block';
+          }
+
+          function hideLoader() {
+            document.getElementById('loader').style.display = 'none';
+          }
+    </script>
+  </body>
+</html>

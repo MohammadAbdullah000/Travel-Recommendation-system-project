@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('.static', filename='mine.css')}}"
+    />
+    <style>
+      /* Loader CSS */
+      #loader {
+        border: 10px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 10px solid rgb(147, 147, 184);
+        width: 90px;
+        height: 90px;
+        animation: spin 2s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none; /* Hidden by default */
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- navbar -->
+    <nav>
+      <ul>
+        <a href="">
+          <li>
+            <img src="{{url_for('.static', filename='lgo.png')}}" alt="" />
+          </li>
+        </a>
+      </ul>
+      <ul class="lists">
+        <li>
+          <input type="text" id="locationInput" placeholder="Enter location" />
+          <button id="changeLocationBtn" onclick="searchAndFilter()">
+            Search
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- End Navbar -->
+    <div class="titl">
+      <div id="attraction"></div>
+    </div>
+    <div class="all" style="display: flex">
+      <div class="datacontainer">
+        <div
+          id="notFoundMessage"
+          style="display: none; color: red; font-size: 30px"
+        >
+          Place not found.
+        </div>
+
+        {% for place in places %}
+        <a href="{{ url_for('card_detail', card_id=place['sr']) }}">
+          <div class="card">
+            <div class="card-body">
+              <div class="placeandimg">
+                <img class="card-img-top" src="{{ place['Image'] }}" />
+                <h3 class="text-white place-name">{{ place['PlaceName'] }}</h3>
+                <h5 class="text-white located" style="display: none">
+                  Located in: {{ place['Location'] }}
+                </h5>
+              </div> 
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+
+      <div class="map-container">
+        <div class="container">
+          <div class="demo">
+            <img src="../static/india2.png" />
+          </div>
+          <div id="loader"></div>
+          <iframe
+            class="mapi"
+            width="770"
+            height="510"
+            id="gmap_canvas"
+            frameborder="0"
+            scrolling="no"
+            marginheight="0"
+            marginwidth="0"
+            onload="hideLoader()"
+          ></iframe>
+        </div>
+        <!-- Bot press -->
+        <iframe
+          style="border: none; position: fixed"
+          class="bp-widget-widget bpw-layout"
+          srcdoc="<body><script src='https://cdn.botpress.cloud/webchat/v0/inject.js'></script>
+          <script>
+            window.botpressWebChat.init({
+                'composerPlaceholder': 'Chat with bot',
+                'botConversationDescription': 'This chatbot was built surprisingly fast with Botpress',
+                'botName': 'Explore Bot',
+                'botId': 'd2add2eb-95a5-4db6-ae41-ca55e4938069',
+                'hostUrl': 'https://cdn.botpress.cloud/webchat/v0',
+                'messagingUrl': 'https://messaging.botpress.cloud',
+                'clientId': 'd2add2eb-95a5-4db6-ae41-ca55e4938069',
+                'enableConversationDeletion': true,
+                'showPoweredBy': false,
+                'className': 'webchatIframe',
+                'containerWidth': '100%25',
+                'layoutWidth': '100%25',
+                'hideWidget': false,
+                'showCloseButton': true,
+                'disableAnimations': true,
+                'closeOnEscape': true,
+                'showConversationsButton': true,
+                'enableTranscriptDownload': true,
+                'stylesheet':'https://webchat-styler-css.botpress.app/prod/51ab619e-1e32-4931-8dd0-0acfaf4a5eb6/v77812/style.css'
+                
+            });
+         
+          </script></body>"
+          width="440px"
+          height="900px"
+          id="chatIframe"
+        ></iframe>
+        <!-- Bot press end -->
+      </div>
+
+      <script>
+        function searchAndFilter() {
+          var locationInput = document.getElementById('locationInput').value;
+
+          if (locationInput.trim() === '') {
+            alert('Please enter a location.');
+            return;
+          }
+
+          showLoader();
+          changeLocation(locationInput);
+          filterByState(locationInput);
+
+          // Save the location to localStorage
+          localStorage.setItem('lastSearchedLocation', locationInput);
+
+          // Push state to history
+          history.pushState({ location: locationInput }, '', '');
+        }
+
+        function changeLocation(location) {
+          var iframeSrc =
+            'https://maps.google.com/maps?q=' +
+            encodeURIComponent(location) +
+            '+attractions' +
+            '&t=&z=10&ie=UTF8&iwloc=&output=embed';
+
+          document.getElementById('gmap_canvas').src = iframeSrc;
+        }
+
+        function filterByState(state) {
+          var stateInput = state.toLowerCase();
+          var cards = document.querySelectorAll('.card');
+          var found = false;
+
+          cards.forEach(function (card) {
+            var stateName = card
+              .querySelector('.located')
+              .innerText.toLowerCase();
+            if (stateName.includes(stateInput)) {
+              card.style.display = 'block';
+              found = true;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          var notFoundMessage = document.getElementById('notFoundMessage');
+          if (!found) {
+            notFoundMessage.style.display = 'block';
+          } else {
+            notFoundMessage.style.display = 'none';
+          }
+        }
+
+        function showLoader() {
+          document.getElementById('loader').style.display = 'block';
+        }
+
+        function hideLoader() {
+          document.getElementById('loader').style.display = 'none';
+        }
+        // Listen to the popstate event to handle back/forward navigation
+        window.onpopstate = function (event) {
+          if (event.state && event.state.location) {
+            var location = event.state.location;
+            document.getElementById('locationInput').value = location;
+            changeLocation(location);
+            filterByState(location);
+          }
+        };
+      </script>
+    </div>
+  </body>
+</html>

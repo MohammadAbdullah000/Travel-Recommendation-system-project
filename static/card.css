@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.card-body img {
+  height: 230px;
+  width: 350px;
+  border-radius: 10px;
+}
+
+.carddet {
+  display: flex;
+}
+
+.carddet {
+  margin: 40px 35px 0px 35px;
+}
+.placeandimg {
+  position: relative;
+}
+.place-name {
+  position: absolute;
+  top: 10px;
+  background: white;
+  border-radius: 5px;
+  padding: 5px;
+  left: 10px;
+  /* z-index: 10; */
+}
+#gmap_canvas {
+  overflow: hidden;
+  background: none !important;
+  width: 1030px;
+  height: 618px;
+  border-radius: 10px;
+  margin: 0px 35px 0px 35px;
+  /* border: 1px solid black; */
+}
+.card-body {
+  box-shadow: 5px 5px 10px gray;
+  border-radius: 10px;
+}
+.insidecard {
+  padding: 10px;
+}
+
+nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 25px;
+  background: rgb(25, 2, 79);
+}
+nav ul li img {
+  height: 50px;
+}
+nav ul {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+nav ul li {
+  padding: 10px;
+  list-style: none;
+  margin-top: 5px;
+  color: white;
+  margin-bottom: 3px;
+  font-size: larger;
+}
+.text-white {
+  padding: 3px;
+}
+.desc {
+  padding: 5px;
+}
