@@ -125,14 +125,17 @@ nav ul li img {
 }
 
 .about-text h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+  font-size: 2.5rem;  
+}
+.flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .line {
-  border: 2px solid rgb(245, 197, 108);
+  border: 2px solid rgb(254, 158, 141);;
   width: 50px;
-  margin: 10px auto;
   transition: width 0.3s ease;
 }
 
@@ -145,6 +148,7 @@ nav ul li img {
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
+  margin-top: 20px;
 }
 
 .about-card ul {
@@ -160,7 +164,7 @@ nav ul li img {
   padding: 20px;
   border-radius: 10px;
   font-size: 1.2rem;
-  background: rgb(243, 218, 171);
+  background: rgb(255 222 216);
   text-align: center;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
@@ -174,7 +178,6 @@ nav ul li img {
   height: 4rem;
   width: 4rem;
 }
-
 footer {
   background-color: #333;
   color: white;
